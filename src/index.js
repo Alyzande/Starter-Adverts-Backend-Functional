@@ -27,6 +27,16 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 
+
+app.use((req, res, next) => {
+  const authHeader = req.headers['authorization']
+  if (authHeader === "secretstring") {
+    next()
+  } else {
+    res.sendStatus(403)
+  }
+})
+
 // defining CRUD operations
 app.get('/', async (req, res) => {
   res.send(await Ad.find());
