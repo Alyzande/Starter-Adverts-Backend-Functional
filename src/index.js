@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const { Ad } = require('../models/ad');
 const { User } = require('../models/user');
 
-mongoose.connect('mongodb://localhost/adsdatabase');
+mongoose.connect('mongodb+srv://alyzande2:password2@cluster0.i5r8w.mongodb.net/adverts?retryWrites=true&w=majority');
 
 // defining the Express app
 const app = express();
