@@ -37,6 +37,17 @@ app.use((req, res, next) => {
   }
 })
 
+app.post('/auth', async(req, res) => {
+  const user = await User.findOne({username: req.body.username})
+  if (!user) {
+    return res.sendStatus(401)
+  } 
+  if (req.body.password != user.password){
+    return res.sendStatus(403)
+  }
+  res.send({token: "secretstring"})
+})
+
 // defining CRUD operations
 app.get('/', async (req, res) => {
   res.send(await Ad.find());
