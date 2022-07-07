@@ -28,8 +28,9 @@ app.use(cors());
 app.use(morgan('combined'));
 
 
+// authorisation function 
 app.use((req, res, next) => {
-  const authHeader = req.headers['authorization']
+  const authHeader = req.headers['authoriation']
   if (authHeader === "secretstring") {
     next()
   } else {
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
   }
 })
 
+// looking for username and password in database
 app.post('/auth', async(req, res) => {
   const user = await User.findOne({username: req.body.username})
   if (!user) {
