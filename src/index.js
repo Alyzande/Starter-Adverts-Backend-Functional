@@ -28,27 +28,33 @@ app.use(cors());
 app.use(morgan('combined'));
 
 
-// authorisation function 
-app.use((req, res, next) => {
-  const authHeader = req.headers['authoriation']
-  if (authHeader === "secretstring") {
-    next()
-  } else {
-    res.sendStatus(403)
-  }
-})
 
 // looking for username and password in database
 app.post('/auth', async(req, res) => {
-  const user = await User.findOne({username: req.body.username})
+  const user = await User.findOne({userName: req.body.userName})
   if (!user) {
+    //unauthorised error
     return res.sendStatus(401)
   } 
   if (req.body.password != user.password){
+    //forbidden error
     return res.sendStatus(403)
   }
   res.send({token: "secretstring"})
 })
+
+// authorisation function 
+// note: can be found by looking through code.
+app.use((req, res, next) => {
+  const authHeader = req.headers['authorization']
+  if (authHeader === "secretstring") {
+    next()
+  } else {
+    //forbidden error
+    res.sendStatus(403)
+  }
+})
+
 
 // defining CRUD operations
 app.get('/', async (req, res) => {
